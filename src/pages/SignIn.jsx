@@ -136,18 +136,18 @@ export default function SignIn() {
           <div className="w-full max-w-md">
             {/* Logo Header - Added new section */}
             <header className="text-center mb-8">
-  <Link to="/" className="items-center">
-    <div className="flex flex-col items-center"> 
-      <span className="relative w-20 h-20 md:w-25 md:h-25 transition-all duration-300 hover:scale-110 flex items-center justify-center"> {/* Increased width and height */}
-        <img src="../../assets/logo/logo.png" alt="Campus Gate Logo" className="w-15 h-15 md:w-12 md:h-19" /> {/* Increased image size */}
-      </span>
-      <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-        Campus Gate
-      </span>
-      <span className="text-xs text-gray-500 -mt-1">Your Campus Companion</span>
-    </div>
-  </Link>
-</header>
+              <Link to="/" className="items-center">
+                <div className="flex flex-col items-center">
+                  <span className="relative w-20 h-20 md:w-25 md:h-25 transition-all duration-300 hover:scale-110 flex items-center justify-center"> {/* Increased width and height */}
+                    <img src="../../assets/logo/logo.png" alt="Campus Gate Logo" className="w-15 h-15 md:w-12 md:h-19" /> {/* Increased image size */}
+                  </span>
+                  <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                    Campus Gate
+                  </span>
+                  <span className="text-xs text-gray-500 -mt-1">Your Campus Companion</span>
+                </div>
+              </Link>
+            </header>
             <div className="text-center mb-8">
               <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
                 Welcome Back

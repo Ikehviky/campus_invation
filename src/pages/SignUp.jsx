@@ -86,15 +86,14 @@ export default function SignUp() {
       <div className="hidden md:flex md:w-1/2 bg-emerald-50 relative">
         <div className="relative w-full h-full overflow-hidden">
           {carouselImages.map((item, index) => (
-            <div 
-              key={index} 
-              className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${
-                index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
-              }`}
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-500 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
             >
-              <img 
-                src={item.image} 
-                alt={item.alt} 
+              <img
+                src={item.image}
+                alt={item.alt}
                 className="w-full h-full object-cover"
               />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-8">
@@ -103,34 +102,33 @@ export default function SignUp() {
               </div>
             </div>
           ))}
-          
+
           {/* Navigation arrows */}
-          <button 
-            onClick={prevSlide} 
+          <button
+            onClick={prevSlide}
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
-          <button 
-            onClick={nextSlide} 
+          <button
+            onClick={nextSlide}
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full"
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
               <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
           </button>
-          
+
           {/* Dots indicator */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
             {carouselImages.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
-                className={`w-2 h-2 rounded-full ${
-                  index === currentSlide ? 'bg-white' : 'bg-white/50'
-                }`}
+                className={`w-2 h-2 rounded-full ${index === currentSlide ? 'bg-white' : 'bg-white/50'
+                  }`}
               />
             ))}
           </div>
@@ -142,18 +140,18 @@ export default function SignUp() {
         <div className="w-full max-w-md">
           {/* Logo Header - Added new section */}
           <header className="text-center mb-8">
-  <Link to="/" className="items-center">
-    <div className="flex flex-col items-center"> 
-      <span className="relative w-20 h-20 md:w-25 md:h-25 transition-all duration-300 hover:scale-110 flex items-center justify-center"> {/* Increased width and height */}
-        <img src="../../assets/logo/logo.png" alt="Campus Gate Logo" className="w-15 h-15 md:w-12 md:h-19" /> {/* Increased image size */}
-      </span>
-      <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-        Campus Gate
-      </span>
-      <span className="text-xs text-gray-500 -mt-1">Your Campus Companion</span>
-    </div>
-  </Link>
-</header>
+            <Link to="/" className="items-center">
+              <div className="flex flex-col items-center">
+                <span className="relative w-20 h-20 md:w-25 md:h-25 transition-all duration-300 hover:scale-110 flex items-center justify-center"> {/* Increased width and height */}
+                  <img src="../../assets/logo/logo.png" alt="Campus Gate Logo" className="w-15 h-15 md:w-12 md:h-19" /> {/* Increased image size */}
+                </span>
+                <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                  Campus Gate
+                </span>
+                <span className="text-xs text-gray-500 -mt-1">Your Campus Companion</span>
+              </div>
+            </Link>
+          </header>
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               Join Campus Gate
@@ -264,8 +262,8 @@ export default function SignUp() {
 
           <p className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{' '}
-            <Link 
-              to="/signin" 
+            <Link
+              to="/signin"
               className="font-medium text-emerald-600 hover:text-emerald-500 transition-colors duration-300"
             >
               Sign in
