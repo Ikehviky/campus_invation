@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
+import About from './pages/About'
 
 function App() {
   const [session, setSession] = useState(null);
@@ -27,6 +28,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        
         <Route
           path="/signin"
           element={!session ? <SignIn /> : <Navigate to="/dashboard" />}
