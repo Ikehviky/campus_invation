@@ -28,6 +28,8 @@ export default function SignIn() {
     }
   ];
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -40,28 +42,43 @@ export default function SignIn() {
     }
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) throw error;
+      console.log('Login successful:', data);
       navigate('/dashboard');
     } catch (error) {
-      setError(error.message);
+      console.error('Login error:', error);
+      setError(error.message || 'An error occurred during sign in. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleGoogleSignIn = async () => {
+    setError('');
+    setLoading(true);
+    
+    if (!isSupabaseConfigured()) {
+      setError('Please connect to Supabase first using the "Connect to Supabase" button');
+      setLoading(false);
+      return;
+    }
+    
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
       });
       if (error) throw error;
+      console.log('Google sign-in initiated:', data);
     } catch (error) {
-      setError(error.message);
+      console.error('Google sign-in error:', error);
+      setError(error.message || 'An error occurred during Google sign in. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,8 +92,6 @@ export default function SignIn() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-
-
       <div className="flex flex-1">
         {/* Left Side - Carousel */}
         <div className="hidden md:flex md:w-1/2 bg-emerald-50 relative">
