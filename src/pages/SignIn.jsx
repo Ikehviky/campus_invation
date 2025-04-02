@@ -49,7 +49,19 @@ export default function SignIn() {
 
       if (error) throw error;
       console.log('Login successful:', data);
-      navigate('/dashboard');
+      
+      // Check if user has admin role or redirect to admin section
+      const { data: userData } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .single();
+      
+      if (userData && userData.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/dashboard');
+      }
     } catch (error) {
       console.error('Login error:', error);
       setError(error.message || 'An error occurred during sign in. Please try again.');
@@ -71,9 +83,34 @@ export default function SignIn() {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
+        options: {
+          redirectTo: window.location.origin + '/auth/callback'
+        }
       });
+      
       if (error) throw error;
       console.log('Google sign-in initiated:', data);
+      
+      // The redirect will happen automatically, but we'll add a listener for when the user returns
+      // This event listener will be triggered when the user is redirected back after Google auth
+      window.addEventListener('supabase.auth.signin', async (event) => {
+        const session = event.detail.session;
+        
+        if (session && session.user) {
+          // Check if user has admin role
+          const { data: userData } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', session.user.id)
+            .single();
+          
+          if (userData && userData.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate('/dashboard');
+          }
+        }
+      });
     } catch (error) {
       console.error('Google sign-in error:', error);
       setError(error.message || 'An error occurred during Google sign in. Please try again.');

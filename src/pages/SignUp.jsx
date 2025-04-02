@@ -47,13 +47,33 @@ export default function SignUp() {
     }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
       });
 
       if (error) throw error;
-      navigate('/dashboard');
+      
+      if (data.user) {
+        // By default, new users are not admins, but we'll check the profiles table
+        // in case there's a pre-configured role
+        try {
+          const { data: userData } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', data.user.id)
+            .single();
+          
+          if (userData && userData.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate('/dashboard');
+          }
+        } catch (profileError) {
+          // If there's no profile yet or another error, just go to dashboard
+          navigate('/dashboard');
+        }
+      }
     } catch (error) {
       setError(error.message);
     } finally {
@@ -62,13 +82,55 @@ export default function SignUp() {
   };
 
   const handleGoogleSignUp = async () => {
+    setError('');
+    setLoading(true);
+    
+    if (!isSupabaseConfigured()) {
+      setError('Please connect to Supabase first using the "Connect to Supabase" button');
+      setLoading(false);
+      return;
+    }
+    
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
+        options: {
+          redirectTo: window.location.origin + '/auth/callback'
+        }
       });
+      
       if (error) throw error;
+      console.log('Google sign-up initiated:', data);
+      
+      // The redirect will happen automatically, but we'll add a listener for when the user returns
+      window.addEventListener('supabase.auth.signin', async (event) => {
+        const session = event.detail.session;
+        
+        if (session && session.user) {
+          // Check if user has admin role
+          try {
+            const { data: userData } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', session.user.id)
+              .single();
+            
+            if (userData && userData.role === 'admin') {
+              navigate('/admin');
+            } else {
+              navigate('/dashboard');
+            }
+          } catch (profileError) {
+            // If there's no profile yet or another error, just go to dashboard
+            navigate('/dashboard');
+          }
+        }
+      });
     } catch (error) {
-      setError(error.message);
+      console.error('Google sign-up error:', error);
+      setError(error.message || 'An error occurred during Google sign up. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 

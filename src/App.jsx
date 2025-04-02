@@ -40,7 +40,7 @@ function App() {
         />
         <Route
           path="/dashboard"
-          element={session ? <Dashboard /> : <Navigate to="/signin" />}
+          element={<Dashboard />}
         />
       </Routes>
     </Router>
