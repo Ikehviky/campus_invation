@@ -2,12 +2,12 @@
  * This file contains mock data and utility functions to replace Supabase database integration
  */
 
-// Mock user data
+// Mock data for authentication and user profiles
 const users = [
   {
     id: '1',
     email: 'user@example.com',
-    password: 'password123', // In a real app, passwords would be hashed
+    password: 'password123',
     role: 'user'
   },
   {

@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../utils/supabase';
-import UserDashboard from '../components/dashboard/UserDashboard';
-import ManagerDashboard from '../components/dashboard/ManagerDashboard';
-import AdminDashboard from '../components/dashboard/AdminDashboard';
+import DashboardLayout from '../components/DashboardLayout';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -244,80 +242,10 @@ export default function Dashboard() {
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main className="container mx-auto pt-24 px-4 md:px-6">
-        {/* Welcome Section */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Welcome Back, {userName}!</h1>
-          <p className="text-gray-600 mt-2">Here's what's happening with your campus life.</p>
-        </div>
-
-        {/* Dashboard Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Quick Actions Card */}
-          <div className="bg-white/70 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
-            <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
-            <div className="space-y-3">
-              <button 
-                onClick={handleStartClearance}
-                className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-2 px-4 rounded-lg hover:shadow-md transition-all duration-300"
-              >
-                Start Clearance
-              </button>
-              <button className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-all duration-300">
-                Find Accommodation
-              </button>
-              <button className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-all duration-300">
-                Study Tools
-              </button>
-            </div>
-          </div>
-
-          {/* Progress Card */}
-          <div className="bg-white/70 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-            <h2 className="text-xl font-semibold mb-4">Your Progress</h2>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Clearance Status</span>
-                  <span>60%</span>
-                </div>
-                <div className="h-2 bg-gray-200 rounded-full">
-                  <div className="h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full w-3/5"></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>Accommodation</span>
-                  <span>40%</span>
-                </div>
-                <div className="h-2 bg-gray-200 rounded-full">
-                  <div className="h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full w-2/5"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Notifications Card */}
-          <div className="bg-white/70 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-            <h2 className="text-xl font-semibold mb-4">Recent Notifications</h2>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3 text-sm">
-                <div className="h-2 w-2 bg-emerald-500 rounded-full"></div>
-                <span>New clearance requirement added</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm">
-                <div className="h-2 w-2 bg-emerald-500 rounded-full"></div>
-                <span>Upcoming deadline: Room registration</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm">
-                <div className="h-2 w-2 bg-emerald-500 rounded-full"></div>
-                <span>Study group invitation received</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
+      {/* Render the appropriate dashboard based on user role */}
+      <div className="pt-20">
+        <DashboardLayout userEmail={userEmail} />
+      </div>
 
       {/* Clearance Modal */}
       {showClearanceModal && (

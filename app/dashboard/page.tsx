@@ -3,19 +3,29 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { supabase } from '@/utils/supabase';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the DashboardLayout component to avoid SSR issues
+const DashboardLayout = dynamic(
+  () => import('@/components/DashboardLayout'),
+  { ssr: false }
+);
 
 export default function Dashboard() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const checkUser = async () => {
+      setIsLoading(true);
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         router.push('/signin');
       } else {
         setUserEmail(user.email);
       }
+      setIsLoading(false);
     };
 
     checkUser();
@@ -30,6 +40,14 @@ export default function Dashboard() {
       console.error('Error signing out:', error);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-blue-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
+      </div>
+    );
+  }
 
   if (!userEmail) {
     return null; // or a loading spinner
@@ -56,13 +74,10 @@ export default function Dashboard() {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 flex items-center justify-center">
-            <p className="text-gray-500 text-xl">Welcome to your dashboard!</p>
-          </div>
-        </div>
-      </main>
+      {/* Render the appropriate dashboard based on user role */}
+      <div className="pt-6">
+        <DashboardLayout userEmail={userEmail} />
+      </div>
     </div>
   );
 }
