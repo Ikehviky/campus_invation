@@ -54,6 +54,38 @@ const profiles = [
   }
 ];
 
+// Safe localStorage wrapper to prevent errors during server-side rendering
+const safeStorage = {
+  setItem: (key, value) => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem(key, value);
+      }
+    } catch (error) {
+      console.error('Error accessing localStorage:', error);
+    }
+  },
+  getItem: (key) => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        return localStorage.getItem(key);
+      }
+    } catch (error) {
+      console.error('Error accessing localStorage:', error);
+    }
+    return null;
+  },
+  removeItem: (key) => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.removeItem(key);
+      }
+    } catch (error) {
+      console.error('Error accessing localStorage:', error);
+    }
+  }
+};
+
 // Mock session storage
 let currentSession = null;
 
@@ -67,7 +99,7 @@ const auth = {
     }
     
     currentSession = { user };
-    localStorage.setItem('mockSession', JSON.stringify(currentSession));
+    safeStorage.setItem('mockSession', JSON.stringify(currentSession));
     
     return { data: { user }, error: null };
   },
@@ -90,7 +122,7 @@ const auth = {
     profiles.push({ id: newUser.id, role: 'user' });
     
     currentSession = { user: newUser };
-    localStorage.setItem('mockSession', JSON.stringify(currentSession));
+    safeStorage.setItem('mockSession', JSON.stringify(currentSession));
     
     return { data: { user: newUser }, error: null };
   },
@@ -103,7 +135,7 @@ const auth = {
   
   signOut: async () => {
     currentSession = null;
-    localStorage.removeItem('mockSession');
+    safeStorage.removeItem('mockSession');
     return { error: null };
   },
   
@@ -111,7 +143,7 @@ const auth = {
     // Try to get session from localStorage for persistence
     if (!currentSession) {
       try {
-        const savedSession = localStorage.getItem('mockSession');
+        const savedSession = safeStorage.getItem('mockSession');
         if (savedSession) {
           currentSession = JSON.parse(savedSession);
         }
@@ -127,7 +159,7 @@ const auth = {
     // Try to get user from localStorage for persistence
     if (!currentSession) {
       try {
-        const savedSession = localStorage.getItem('mockSession');
+        const savedSession = safeStorage.getItem('mockSession');
         if (savedSession) {
           currentSession = JSON.parse(savedSession);
         }
