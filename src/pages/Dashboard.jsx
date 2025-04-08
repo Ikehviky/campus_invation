@@ -1,16 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../utils/supabase';
-import DashboardLayout from '../components/DashboardLayout';
+import UserDashboard from '../components/dashboard/UserDashboard';
+import AdminDashboard from '../components/dashboard/AdminDashboard';
+import ManagerDashboard from '../components/dashboard/ManagerDashboard';
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [userEmail, setUserEmail] = useState(null);
   const [userName, setUserName] = useState('');
+  const [userRole, setUserRole] = useState('user'); // Default to user role
+  const [campus, setCampus] = useState('University of Lagos'); // Default campus for manager
   const [showClearanceModal, setShowClearanceModal] = useState(false);
   const [selectedSchool, setSelectedSchool] = useState('');
   const [currentStep, setCurrentStep] = useState('select-school'); // select-school, view-guide, help-options
   const printRef = useRef();
+  
+  // Determine which dashboard to show based on the current path
+  const currentPath = location.pathname;
   
   // List of Nigerian universities for the dropdown
   const nigerianSchools = [
@@ -112,10 +120,19 @@ export default function Dashboard() {
         // Capitalize first letter
         const formattedName = nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1);
         setUserName(formattedName);
+        
+        // Set user role based on email or current path
+        if (user.email.includes('admin') || currentPath === '/admin') {
+          setUserRole('admin');
+        } else if (user.email.includes('manager') || currentPath === '/manager') {
+          setUserRole('manager');
+        } else {
+          setUserRole('user');
+        }
       }
     };
     getUser();
-  }, []);
+  }, [currentPath]);
 
   const handleSignOut = async () => {
     try {
@@ -242,9 +259,15 @@ export default function Dashboard() {
         </div>
       </nav>
 
-      {/* Render the appropriate dashboard based on user role */}
+      {/* Render the appropriate dashboard based on current path and user role */}
       <div className="pt-20">
-        <DashboardLayout userEmail={userEmail} />
+        {currentPath === '/admin' || userRole === 'admin' ? (
+          <AdminDashboard userEmail={userEmail} userName={userName} />
+        ) : currentPath === '/manager' || userRole === 'manager' ? (
+          <ManagerDashboard userEmail={userEmail} userName={userName} campus={campus} />
+        ) : (
+          <UserDashboard userEmail={userEmail} userName={userName} />
+        )}
       </div>
 
       {/* Clearance Modal */}

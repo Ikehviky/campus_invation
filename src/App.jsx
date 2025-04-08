@@ -42,6 +42,14 @@ function App() {
           path="/dashboard"
           element={<Dashboard />}
         />
+        <Route
+          path="/admin"
+          element={<Dashboard />}
+        />
+        <Route
+          path="/manager"
+          element={<Dashboard />}
+        />
       </Routes>
     </Router>
   );
