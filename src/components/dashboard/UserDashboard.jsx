@@ -1,18 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '../utils/supabase';
-import UserDashboard from '../components/dashboard/UserDashboard';
-import ManagerDashboard from '../components/dashboard/ManagerDashboard';
-import AdminDashboard from '../components/dashboard/AdminDashboard';
+import React from 'react';
 
-export default function Dashboard() {
-  const navigate = useNavigate();
-  const [userEmail, setUserEmail] = useState(null);
-  const [userName, setUserName] = useState('');
-  const [showClearanceModal, setShowClearanceModal] = useState(false);
-  const [selectedSchool, setSelectedSchool] = useState('');
-  const [currentStep, setCurrentStep] = useState('select-school'); // select-school, view-guide, help-options
-  const printRef = useRef();
+export default function UserDashboard({ userEmail, userName }) {
+  const [showClearanceModal, setShowClearanceModal] = React.useState(false);
+  const [selectedSchool, setSelectedSchool] = React.useState('');
+  const [currentStep, setCurrentStep] = React.useState('select-school'); // select-school, view-guide, help-options
+  const printRef = React.useRef();
   
   // List of Nigerian universities for the dropdown
   const nigerianSchools = [
@@ -34,7 +26,6 @@ export default function Dashboard() {
   ];
 
   // Demo clearance guides for each school
-  // In a real application, these would be fetched from a database
   const clearanceGuides = {
     "University of Lagos": [
       { step: 1, title: "Online Registration", description: "Complete student profile on university portal" },
@@ -102,31 +93,6 @@ export default function Dashboard() {
   // Get clearance guide for selected school or use default
   const getClearanceGuide = (school) => {
     return clearanceGuides[school] || getDefaultClearanceGuide(school);
-  };
-
-  useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setUserEmail(user.email);
-        // Extract name from email (before @) and remove any numbers
-        const nameFromEmail = user.email.split('@')[0].replace(/[0-9]/g, '');
-        // Capitalize first letter
-        const formattedName = nameFromEmail.charAt(0).toUpperCase() + nameFromEmail.slice(1);
-        setUserName(formattedName);
-      }
-    };
-    getUser();
-  }, []);
-
-  const handleSignOut = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      navigate('/');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
   };
 
   const handleStartClearance = () => {
@@ -204,48 +170,10 @@ export default function Dashboard() {
     handleCloseModal();
   };
 
-  if (!userEmail) {
-    return null;
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
-      {/* Header/Navigation */}
-      <nav className="bg-white/80 shadow-sm fixed w-full z-50">
-        <div className="container mx-auto px-4 py-3 md:px-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 group">
-              <div className="relative w-8 h-8 md:w-10 md:h-10">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg transform group-hover:rotate-6 transition-transform" />
-                <div className="absolute inset-0.5 bg-white rounded-lg flex items-center justify-center">
-                  <img src="../../assets/logo/logo.png" alt="" className="w-5 h-5 md:w-6 md:h-6" />
-                </div>
-              </div>
-              <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                Campus Gate
-              </span>
-            </div>
-            
-            <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
-                <div className="h-8 w-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-white">
-                  {userEmail.charAt(0).toUpperCase()}
-                </div>
-                <span className="text-gray-600 hidden md:block">{userEmail}</span>
-              </div>
-              <button
-                onClick={handleSignOut}
-                className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 hover:shadow-md transition-all duration-300"
-              >
-                Sign Out
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
-
       {/* Main Content */}
-      <main className="container mx-auto pt-24 px-4 md:px-6">
+      <main className="container mx-auto pt-6 px-4 md:px-6">
         {/* Welcome Section */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Welcome Back, {userName}!</h1>
