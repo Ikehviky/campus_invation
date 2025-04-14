@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 
 // Dynamically import the DashboardLayout component to avoid SSR issues
 const DashboardLayout = dynamic(
-  () => import('@/components/DashboardLayout'),
+  () => import('@/src/components/DashboardLayout'),
   { ssr: false }
 );
 
@@ -62,6 +62,13 @@ export default function Dashboard() {
               <h1 className="text-xl font-semibold">Dashboard</h1>
             </div>
             <div className="flex items-center space-x-4">
+              {/* Home link */}
+              <a
+                href="/"
+                className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors duration-300"
+              >
+                Home
+              </a>
               <span className="text-gray-600">{userEmail}</span>
               <button
                 onClick={handleSignOut}

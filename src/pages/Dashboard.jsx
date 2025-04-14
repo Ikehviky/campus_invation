@@ -242,6 +242,13 @@ export default function Dashboard() {
             </div>
             
             <div className="flex items-center space-x-6">
+              {/* Home link with React Router */}
+              <Link
+                to="/"
+                className="text-emerald-600 hover:text-emerald-800 font-medium transition-colors duration-300"
+              >
+                Home
+              </Link>
               <div className="flex items-center space-x-2">
                 <div className="h-8 w-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-white">
                   {userEmail.charAt(0).toUpperCase()}
