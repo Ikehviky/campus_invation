@@ -65,19 +65,12 @@ export default function Home({ session: propSession }) {
                   <span className="ml-2">→</span>
                 </Link>
               ) : (
-                <Link to="/dashboard"
+                <Link to="/register"
                   className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 transition-colors">
-                  Go to Dashboard
+                  Get Started
                   <span className="ml-2">→</span>
                 </Link>
               )}
-              <Link to="/about"
-                className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-200 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
-                Learn More
-                <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
             </div>
           </div>
         </section>

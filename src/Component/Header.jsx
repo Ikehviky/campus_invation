@@ -59,15 +59,6 @@ export default function Header() {
 
                     {/* Navigation Links - Desktop - Notion-inspired */}
                     <div className="hidden md:flex items-center space-x-6">
-                        <Link to="/" className="text-notion-gray-4 hover:text-notion-black font-medium transition-colors duration-300">
-                            Home
-                        </Link>
-                        <Link to="/about" className="text-notion-gray-4 hover:text-notion-black font-medium transition-colors duration-300">
-                            About Us
-                        </Link>
-                        <Link to="/testimonials" className="text-notion-gray-4 hover:text-notion-black font-medium transition-colors duration-300">
-                            Testimonials
-                        </Link>
                         {!session ? (
                             <div className="flex space-x-3">
                                 <Link to="/signin" className="notion-button notion-button-outline">
@@ -92,9 +83,6 @@ export default function Header() {
                                         Dashboard
                                     </Link>
                                 )}
-                                <Link to="/" className="notion-button notion-button-outline">
-                                    Home
-                                </Link>
                             </div>
                         )}
                     </div>

@@ -65,7 +65,6 @@ export default function DashboardLayout({ userEmail }) {
         setIsLoading(false);
       }
     };
-
     getUserRole();
   }, [userEmail]);
 
