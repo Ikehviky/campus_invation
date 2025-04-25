@@ -12,17 +12,17 @@ export default function SignIn() {
 
   const carouselImages = [
     {
-      image: "../../assets/image/campus00.jpg",
+      image: "/assets/image/campus00.jpg",
       alt: "Campus Gate User",
       description: "Access resources and connect with fellow students"
     },
     {
-      image: "../../assets/image/campus01.jpg",
+      image: "/assets/image/campus01.jpg",
       alt: "Campus facilities",
       description: "Discover campus amenities and services"
     },
     {
-      image: "../../assets/image/campus02.jpg",
+      image: "/assets/image/campus02.jpg",
       alt: "Student collaboration",
       description: "Collaborate on projects and share knowledge"
     }
@@ -91,26 +91,40 @@ export default function SignIn() {
       if (error) throw error;
       console.log('Google sign-in initiated:', data);
       
-      // The redirect will happen automatically, but we'll add a listener for when the user returns
-      // This event listener will be triggered when the user is redirected back after Google auth
-      window.addEventListener('supabase.auth.signin', async (event) => {
-        const session = event.detail.session;
-        
-        if (session && session.user) {
-          // Check if user has admin role
-          const { data: userData } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', session.user.id)
-            .single();
+      // In a real implementation, we would handle the OAuth callback
+      // For our mock implementation, we'll simulate a successful login
+      // In production, Supabase handles this automatically through the redirectTo URL
+      
+      // For demo purposes, we'll check for the session after a short delay
+      // This simulates the user being redirected back after authentication
+      setTimeout(async () => {
+        try {
+          // Get the current session
+          const { data: { session } } = await supabase.auth.getSession();
           
-          if (userData && userData.role === 'admin') {
-            navigate('/admin');
-          } else {
-            navigate('/dashboard');
+          if (session && session.user) {
+            // Check if user has admin role
+            try {
+              const { data: userData } = await supabase
+                .from('profiles')
+                .select('role')
+                .eq('id', session.user.id)
+                .single();
+              
+              if (userData && userData.role === 'admin') {
+                navigate('/admin');
+              } else {
+                navigate('/dashboard');
+              }
+            } catch (profileError) {
+              // If there's no profile yet or another error, just go to dashboard
+              navigate('/dashboard');
+            }
           }
+        } catch (sessionError) {
+          console.error('Session retrieval error:', sessionError);
         }
-      });
+      }, 1000); // Simulate redirect delay
     } catch (error) {
       console.error('Google sign-in error:', error);
       setError(error.message || 'An error occurred during Google sign in. Please try again.');
@@ -131,7 +145,7 @@ export default function SignIn() {
     <div className="flex flex-col min-h-screen bg-white">
       <div className="flex flex-1">
         {/* Left Side - Carousel */}
-        <div className="hidden md:flex md:w-1/2 bg-emerald-50 relative">
+        <div className="hidden md:flex md:w-1/2 bg-gray-50 relative">
           <div className="relative w-full h-full overflow-hidden">
             {carouselImages.map((item, index) => (
               <div
@@ -144,8 +158,8 @@ export default function SignIn() {
                   alt={item.alt}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-8">
-                  <h3 className="text-white text-xl font-bold">{item.alt}</h3>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900/70 to-transparent p-8">
+                  <h3 className="text-white text-xl font-medium">{item.alt}</h3>
                   <p className="text-white/80 mt-2">{item.description}</p>
                 </div>
               </div>
@@ -154,17 +168,17 @@ export default function SignIn() {
             {/* Navigation arrows */}
             <button
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full transition-all duration-300"
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-2 rounded-full transition-all duration-200"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
               </svg>
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/50 p-2 rounded-full transition-all duration-300"
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/40 p-2 rounded-full transition-all duration-200"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-white">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
               </svg>
             </button>
@@ -190,10 +204,10 @@ export default function SignIn() {
             <header className="text-center mb-8">
               <Link to="/" className="items-center">
                 <div className="flex flex-col items-center">
-                  <span className="relative w-20 h-20 md:w-25 md:h-25 transition-all duration-300 hover:scale-110 flex items-center justify-center"> {/* Increased width and height */}
-                    <img src="../../assets/logo/logo.png" alt="Campus Gate Logo" className="w-15 h-15 md:w-12 md:h-19" /> {/* Increased image size */}
+                  <span className="relative w-20 h-20 md:w-25 md:h-25 transition-all duration-200 hover:scale-105 flex items-center justify-center">
+                    <img src="/assets/logo/logo.png" alt="Campus Gate Logo" className="w-15 h-15 md:w-12 md:h-19" />
                   </span>
-                  <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                  <span className="text-xl md:text-2xl font-semibold text-gray-900">
                     Campus Gate
                   </span>
                   <span className="text-xs text-gray-500 -mt-1">Your Campus Companion</span>
@@ -201,10 +215,10 @@ export default function SignIn() {
               </Link>
             </header>
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+              <h2 className="text-2xl font-semibold text-gray-900">
                 Welcome Back
               </h2>
-              <p className="mt-2 text-gray-600">Sign in to continue your journey</p>
+              <p className="mt-2 text-gray-500">Sign in to continue your journey</p>
             </div>
 
             {error && (
@@ -224,7 +238,7 @@ export default function SignIn() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors duration-300"
+                  className="mt-1 block w-full rounded-md border border-gray-200 px-4 py-2.5 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-300 transition-colors duration-200"
                 />
               </div>
 
@@ -238,7 +252,7 @@ export default function SignIn() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors duration-300"
+                  className="mt-1 block w-full rounded-md border border-gray-200 px-4 py-2.5 shadow-sm focus:border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-300 transition-colors duration-200"
                 />
               </div>
 
@@ -248,7 +262,7 @@ export default function SignIn() {
                     id="remember-me"
                     name="remember-me"
                     type="checkbox"
-                    className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-gray-600 focus:ring-gray-500 border-gray-200 rounded"
                   />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                     Remember me
@@ -256,7 +270,7 @@ export default function SignIn() {
                 </div>
 
                 <div className="text-sm">
-                  <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500 transition-colors duration-300">
+                  <a href="#" className="font-medium text-gray-600 hover:text-gray-800 transition-colors duration-200">
                     Forgot password?
                   </a>
                 </div>
@@ -265,7 +279,7 @@ export default function SignIn() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 px-4 rounded-lg hover:shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+                className="w-full bg-gray-900 text-white py-2.5 px-4 rounded-md hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
               >
                 {loading ? 'Signing in...' : 'Sign In'}
               </button>
@@ -283,7 +297,7 @@ export default function SignIn() {
 
               <button
                 onClick={handleGoogleSignIn}
-                className="mt-4 w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:shadow-md transition-all duration-300 font-medium"
+                className="mt-4 w-full flex items-center justify-center px-4 py-2.5 border border-gray-200 rounded-md text-gray-700 bg-white hover:bg-gray-50 hover:shadow-sm transition-all duration-200 font-medium"
               >
                 <img
                   className="h-5 w-5 mr-2"
@@ -298,7 +312,7 @@ export default function SignIn() {
               Don't have an account?{' '}
               <Link
                 to="/signup"
-                className="font-medium text-emerald-600 hover:text-emerald-500 transition-colors duration-300"
+                className="font-medium text-gray-600 hover:text-gray-800 transition-colors duration-200"
               >
                 Sign up
               </Link>

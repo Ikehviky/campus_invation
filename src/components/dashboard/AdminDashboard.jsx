@@ -43,7 +43,7 @@ export default function AdminDashboard({ userEmail, userName }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Main Content */}
       <main className="container mx-auto pt-6 px-4 md:px-6">
         {/* Welcome Section */}
@@ -153,13 +153,13 @@ export default function AdminDashboard({ userEmail, userName }) {
         <div className="bg-white rounded-xl shadow-md p-6 mb-8">
           <h2 className="text-lg font-semibold text-gray-800 mb-4">Admin Actions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 px-4 rounded-lg hover:shadow-md transition-all duration-300">
+            <button className="bg-gray-900 text-white py-3 px-4 rounded-md hover:bg-gray-800 transition-colors">
               Manage Users
             </button>
-            <button className="bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition-all duration-300">
+            <button className="bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-md hover:bg-gray-50 transition-colors">
               Manage Campuses
             </button>
-            <button className="bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition-all duration-300">
+            <button className="bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-md hover:bg-gray-50 transition-colors">
               System Settings
             </button>
           </div>
@@ -193,7 +193,7 @@ export default function AdminDashboard({ userEmail, userName }) {
             </div>
           </div>
           <div className="mt-6">
-            <button className="bg-white border border-emerald-500 text-emerald-600 py-2 px-4 rounded-lg hover:bg-emerald-50 transition-all duration-300">
+            <button className="bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-50 transition-colors">
               Add New Service
             </button>
           </div>

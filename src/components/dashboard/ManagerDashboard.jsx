@@ -43,7 +43,7 @@ export default function ManagerDashboard({ userEmail, userName, campus }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Main Content */}
       <main className="container mx-auto pt-6 px-4 md:px-6">
         {/* Welcome Section */}
@@ -134,7 +134,7 @@ export default function ManagerDashboard({ userEmail, userName, campus }) {
                     </div>
                     <div className="h-2 bg-gray-200 rounded-full">
                       <div 
-                        className="h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full" 
+                        className="h-2 bg-gray-900 rounded-full" 
                         style={{ width: `${completedPercentage}%` }}
                       ></div>
                     </div>
@@ -151,13 +151,13 @@ export default function ManagerDashboard({ userEmail, userName, campus }) {
 
         {/* Action Buttons */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 px-4 rounded-lg hover:shadow-md transition-all duration-300">
+          <button className="bg-gray-900 text-white py-3 px-4 rounded-md hover:bg-gray-800 transition-colors">
             Manage Clearance Process
           </button>
-          <button className="bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition-all duration-300">
+          <button className="bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-md hover:bg-gray-50 transition-colors">
             Generate Reports
           </button>
-          <button className="bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition-all duration-300">
+          <button className="bg-white border border-gray-300 text-gray-700 py-3 px-4 rounded-md hover:bg-gray-50 transition-colors">
             Update Clearance Requirements
           </button>
         </div>

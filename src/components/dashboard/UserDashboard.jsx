@@ -171,7 +171,7 @@ export default function UserDashboard({ userEmail, userName }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Main Content */}
       <main className="container mx-auto pt-6 px-4 md:px-6">
         {/* Welcome Section */}
@@ -183,26 +183,26 @@ export default function UserDashboard({ userEmail, userName }) {
         {/* Dashboard Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Quick Actions Card */}
-          <div className="bg-white/70 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]">
+          <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
             <h2 className="text-xl font-semibold mb-4">Quick Actions</h2>
             <div className="space-y-3">
               <button 
                 onClick={handleStartClearance}
-                className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-2 px-4 rounded-lg hover:shadow-md transition-all duration-300"
+                className="w-full bg-gray-900 text-white py-2 px-4 rounded-md hover:bg-gray-800 transition-colors"
               >
                 Start Clearance
               </button>
-              <button className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-all duration-300">
+              <button className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-50 transition-colors">
                 Find Accommodation
               </button>
-              <button className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-all duration-300">
+              <button className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-50 transition-colors">
                 Study Tools
               </button>
             </div>
           </div>
 
           {/* Progress Card */}
-          <div className="bg-white/70 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
             <h2 className="text-xl font-semibold mb-4">Your Progress</h2>
             <div className="space-y-4">
               <div>
@@ -211,7 +211,7 @@ export default function UserDashboard({ userEmail, userName }) {
                   <span>60%</span>
                 </div>
                 <div className="h-2 bg-gray-200 rounded-full">
-                  <div className="h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full w-3/5"></div>
+                  <div className="h-2 bg-gray-900 rounded-full w-3/5"></div>
                 </div>
               </div>
               <div>
@@ -220,26 +220,26 @@ export default function UserDashboard({ userEmail, userName }) {
                   <span>40%</span>
                 </div>
                 <div className="h-2 bg-gray-200 rounded-full">
-                  <div className="h-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full w-2/5"></div>
+                  <div className="h-2 bg-gray-900 rounded-full w-2/5"></div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Notifications Card */}
-          <div className="bg-white/70 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
+          <div className="bg-white rounded-lg p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
             <h2 className="text-xl font-semibold mb-4">Recent Notifications</h2>
             <div className="space-y-4">
               <div className="flex items-center space-x-3 text-sm">
-                <div className="h-2 w-2 bg-emerald-500 rounded-full"></div>
+                <div className="h-2 w-2 bg-gray-900 rounded-full"></div>
                 <span>New clearance requirement added</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
-                <div className="h-2 w-2 bg-emerald-500 rounded-full"></div>
+                <div className="h-2 w-2 bg-gray-900 rounded-full"></div>
                 <span>Upcoming deadline: Room registration</span>
               </div>
               <div className="flex items-center space-x-3 text-sm">
-                <div className="h-2 w-2 bg-emerald-500 rounded-full"></div>
+                <div className="h-2 w-2 bg-gray-900 rounded-full"></div>
                 <span>Study group invitation received</span>
               </div>
             </div>
@@ -298,7 +298,7 @@ export default function UserDashboard({ userEmail, userName }) {
                     <button
                       type="submit"
                       disabled={!selectedSchool}
-                      className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 px-4 rounded-lg hover:shadow-md transition-all duration-300 disabled:opacity-50"
+                      className="w-full bg-gray-900 text-white py-3 px-4 rounded-md hover:bg-gray-800 transition-colors disabled:opacity-50"
                     >
                       View Clearance Guide
                     </button>
@@ -313,7 +313,7 @@ export default function UserDashboard({ userEmail, userName }) {
                     {getClearanceGuide(selectedSchool).map((item) => (
                       <div key={item.step} className="bg-white rounded-lg p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200">
                         <div className="flex items-start">
-                          <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
+                          <div className="bg-gray-100 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
                             {item.step}
                           </div>
                           <div>
@@ -338,14 +338,14 @@ export default function UserDashboard({ userEmail, userName }) {
                     
                     <button
                       onClick={handleGetHelp}
-                      className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 px-4 rounded-lg hover:shadow-md transition-all duration-300"
+                      className="w-full bg-gray-900 text-white py-3 px-4 rounded-md hover:bg-gray-800 transition-colors"
                     >
                       Need Help? Get Professional Assistance
                     </button>
                     
                     <button
                       onClick={() => setCurrentStep('select-school')}
-                      className="text-emerald-600 hover:text-emerald-800 text-sm flex items-center justify-center"
+                      className="text-gray-600 hover:text-gray-800 text-sm flex items-center justify-center"
                     >
                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
@@ -393,10 +393,10 @@ export default function UserDashboard({ userEmail, userName }) {
                         <div className="mt-4">
                           <button
                             onClick={() => handleSelectService(service.id)}
-                            className={`w-full py-2 px-4 rounded-lg transition-all duration-300 ${
+                            className={`w-full py-2 px-4 rounded-md transition-colors ${
                               service.id === 'full-service'
-                                ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:shadow-md'
-                                : 'border border-emerald-500 text-emerald-600 hover:bg-emerald-50'
+                                ? 'bg-gray-900 text-white hover:bg-gray-800'
+                                : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
                             }`}
                           >
                             Select {service.title}
@@ -408,7 +408,7 @@ export default function UserDashboard({ userEmail, userName }) {
                   
                   <button
                     onClick={() => setCurrentStep('view-guide')}
-                    className="text-emerald-600 hover:text-emerald-800 text-sm flex items-center justify-center w-full"
+                    className="text-gray-600 hover:text-gray-800 text-sm flex items-center justify-center w-full"
                   >
                     <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>

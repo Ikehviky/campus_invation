@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { supabase } from '../utils/supabase';
 import UserDashboard from '../components/dashboard/UserDashboard';
 import AdminDashboard from '../components/dashboard/AdminDashboard';
@@ -143,6 +143,29 @@ export default function Dashboard() {
       console.error('Error signing out:', error);
     }
   };
+  
+  // Render the appropriate dashboard based on user role
+  const renderDashboard = () => {
+    // If path is /admin, show AdminDashboard regardless of user role
+    if (currentPath === '/admin') {
+      return <AdminDashboard userEmail={userEmail} userName={userName} />;
+    }
+    
+    // If path is /manager, show ManagerDashboard regardless of user role
+    if (currentPath === '/manager') {
+      return <ManagerDashboard userEmail={userEmail} userName={userName} campus={campus} />;
+    }
+    
+    // For /dashboard path, show dashboard based on user role
+    switch (userRole) {
+      case 'admin':
+        return <AdminDashboard userEmail={userEmail} userName={userName} />;
+      case 'manager':
+        return <ManagerDashboard userEmail={userEmail} userName={userName} campus={campus} />;
+      default:
+        return <UserDashboard userEmail={userEmail} userName={userName} />;
+    }
+  };
 
   const handleStartClearance = () => {
     setShowClearanceModal(true);
@@ -224,19 +247,16 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-blue-50">
+    <div className="min-h-screen bg-white">
       {/* Header/Navigation */}
-      <nav className="bg-white/80 shadow-sm fixed w-full z-50">
+      <nav className="bg-white border-b border-gray-200 fixed w-full z-50">
         <div className="container mx-auto px-4 py-3 md:px-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 group">
-              <div className="relative w-8 h-8 md:w-10 md:h-10">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-lg transform group-hover:rotate-6 transition-transform" />
-                <div className="absolute inset-0.5 bg-white rounded-lg flex items-center justify-center">
-                  <img src="../../assets/logo/logo.png" alt="" className="w-5 h-5 md:w-6 md:h-6" />
-                </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+                <img src="../../assets/logo/logo.png" alt="" className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <span className="text-xl md:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+              <span className="text-xl md:text-2xl font-bold text-gray-900">
                 Campus Gate
               </span>
             </div>
@@ -250,14 +270,14 @@ export default function Dashboard() {
                 Home
               </Link>
               <div className="flex items-center space-x-2">
-                <div className="h-8 w-8 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center text-white">
+                <div className="h-8 w-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-700">
                   {userEmail.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-gray-600 hidden md:block">{userEmail}</span>
               </div>
               <button
                 onClick={handleSignOut}
-                className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 hover:shadow-md transition-all duration-300"
+                className="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors"
               >
                 Sign Out
               </button>
@@ -268,13 +288,7 @@ export default function Dashboard() {
 
       {/* Render the appropriate dashboard based on current path and user role */}
       <div className="pt-20">
-        {currentPath === '/admin' || userRole === 'admin' ? (
-          <AdminDashboard userEmail={userEmail} userName={userName} />
-        ) : currentPath === '/manager' || userRole === 'manager' ? (
-          <ManagerDashboard userEmail={userEmail} userName={userName} campus={campus} />
-        ) : (
-          <UserDashboard userEmail={userEmail} userName={userName} />
-        )}
+        {renderDashboard()}
       </div>
 
       {/* Clearance Modal */}
@@ -328,7 +342,7 @@ export default function Dashboard() {
                     <button
                       type="submit"
                       disabled={!selectedSchool}
-                      className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 px-4 rounded-lg hover:shadow-md transition-all duration-300 disabled:opacity-50"
+                      className="w-full bg-gray-900 text-white py-3 px-4 rounded-md hover:bg-gray-800 transition-colors disabled:opacity-50"
                     >
                       View Clearance Guide
                     </button>
@@ -343,7 +357,7 @@ export default function Dashboard() {
                     {getClearanceGuide(selectedSchool).map((item) => (
                       <div key={item.step} className="bg-white rounded-lg p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200">
                         <div className="flex items-start">
-                          <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
+                          <div className="bg-gray-100 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
                             {item.step}
                           </div>
                           <div>
@@ -368,14 +382,14 @@ export default function Dashboard() {
                     
                     <button
                       onClick={handleGetHelp}
-                      className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white py-3 px-4 rounded-lg hover:shadow-md transition-all duration-300"
+                      className="w-full bg-gray-900 text-white py-3 px-4 rounded-md hover:bg-gray-800 transition-colors"
                     >
                       Need Help? Get Professional Assistance
                     </button>
                     
                     <button
                       onClick={() => setCurrentStep('select-school')}
-                      className="text-emerald-600 hover:text-emerald-800 text-sm flex items-center justify-center"
+                      className="text-gray-600 hover:text-gray-800 text-sm flex items-center justify-center"
                     >
                       <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>

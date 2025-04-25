@@ -65,7 +65,7 @@ export default function Home({ session: propSession }) {
                   <span className="ml-2">→</span>
                 </Link>
               ) : (
-                <Link to="/register"
+                <Link to="/signup"
                   className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-800 transition-colors">
                   Get Started
                   <span className="ml-2">→</span>
